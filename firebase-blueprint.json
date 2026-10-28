@@ -1,0 +1,169 @@
+{
+  "entities": {
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Global website configuration, contact links, and SEO settings",
+      "type": "object",
+      "properties": {
+        "siteTitleEn": { "type": "string", "maxLength": 150 },
+        "siteTitleBn": { "type": "string", "maxLength": 150 },
+        "descriptionEn": { "type": "string", "maxLength": 500 },
+        "descriptionBn": { "type": "string", "maxLength": 500 },
+        "heroHeadlineEn": { "type": "string", "maxLength": 200 },
+        "heroHeadlineBn": { "type": "string", "maxLength": 200 },
+        "heroSubtitleEn": { "type": "string", "maxLength": 500 },
+        "heroSubtitleBn": { "type": "string", "maxLength": 500 },
+        "heroPrimaryCtaEn": { "type": "string", "maxLength": 60 },
+        "heroPrimaryCtaBn": { "type": "string", "maxLength": 60 },
+        "heroSecondaryCtaEn": { "type": "string", "maxLength": 60 },
+        "heroSecondaryCtaBn": { "type": "string", "maxLength": 60 },
+        "contactEmail": { "type": "string", "maxLength": 120 },
+        "whatsappNumber": { "type": "string", "maxLength": 50 },
+        "defaultLanguage": { "type": "string", "enum": ["en", "bn"] },
+        "location": { "type": "string", "maxLength": 100 },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["siteTitleEn", "heroHeadlineEn", "updatedAt"]
+    },
+    "Profile": {
+      "title": "Profile",
+      "description": "Professional bio, skills, tools, and social links",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "headlineEn": { "type": "string", "maxLength": 200 },
+        "headlineBn": { "type": "string", "maxLength": 200 },
+        "bioEn": { "type": "string", "maxLength": 3000 },
+        "bioBn": { "type": "string", "maxLength": 3000 },
+        "photoUrl": { "type": "string", "maxLength": 1000 },
+        "workApproachEn": { "type": "string", "maxLength": 1500 },
+        "workApproachBn": { "type": "string", "maxLength": 1500 },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "updatedAt"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Portfolio case study or concept design showcase",
+      "type": "object",
+      "properties": {
+        "titleEn": { "type": "string", "maxLength": 200 },
+        "titleBn": { "type": "string", "maxLength": 200 },
+        "slug": { "type": "string", "maxLength": 120, "pattern": "^[a-z0-9\\-]+$" },
+        "shortDescEn": { "type": "string", "maxLength": 400 },
+        "shortDescBn": { "type": "string", "maxLength": 400 },
+        "category": { "type": "string", "maxLength": 60 },
+        "coverImage": { "type": "string", "maxLength": 1000 },
+        "roleEn": { "type": "string", "maxLength": 150 },
+        "roleBn": { "type": "string", "maxLength": 150 },
+        "challengeEn": { "type": "string", "maxLength": 3000 },
+        "challengeBn": { "type": "string", "maxLength": 3000 },
+        "solutionEn": { "type": "string", "maxLength": 3000 },
+        "solutionBn": { "type": "string", "maxLength": 3000 },
+        "outcomeEn": { "type": "string", "maxLength": 2000 },
+        "outcomeBn": { "type": "string", "maxLength": 2000 },
+        "liveDemoUrl": { "type": "string", "maxLength": 1000 },
+        "sourceUrl": { "type": "string", "maxLength": 1000 },
+        "isFeatured": { "type": "boolean" },
+        "isPractice": { "type": "boolean" },
+        "displayOrder": { "type": "number" },
+        "status": { "type": "string", "enum": ["draft", "published"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "publishedAt": { "type": "string" }
+      },
+      "required": ["titleEn", "slug", "category", "status", "createdAt", "updatedAt"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "Service offered by the digital specialist",
+      "type": "object",
+      "properties": {
+        "titleEn": { "type": "string", "maxLength": 150 },
+        "titleBn": { "type": "string", "maxLength": 150 },
+        "shortDescEn": { "type": "string", "maxLength": 400 },
+        "shortDescBn": { "type": "string", "maxLength": 400 },
+        "category": { "type": "string", "maxLength": 80 },
+        "iconName": { "type": "string", "maxLength": 60 },
+        "displayOrder": { "type": "number" },
+        "isPublished": { "type": "boolean" },
+        "ctaTextEn": { "type": "string", "maxLength": 60 },
+        "ctaTextBn": { "type": "string", "maxLength": 60 },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["titleEn", "category", "displayOrder", "isPublished", "updatedAt"]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Incoming project inquiry submitted by prospective clients",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 120 },
+        "email": { "type": "string", "maxLength": 160 },
+        "company": { "type": "string", "maxLength": 120 },
+        "serviceRequested": { "type": "string", "maxLength": 80 },
+        "budgetRange": { "type": "string", "maxLength": 80 },
+        "projectDescription": { "type": "string", "maxLength": 3000 },
+        "preferredLanguage": { "type": "string", "enum": ["en", "bn"] },
+        "status": { "type": "string", "enum": ["unread", "read", "archived"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "email", "serviceRequested", "projectDescription", "status", "createdAt"]
+    },
+    "ActivityLog": {
+      "title": "ActivityLog",
+      "description": "Administrative actions audit history",
+      "type": "object",
+      "properties": {
+        "action": { "type": "string", "maxLength": 100 },
+        "resourceType": { "type": "string", "maxLength": 60 },
+        "resourceId": { "type": "string", "maxLength": 120 },
+        "details": { "type": "string", "maxLength": 500 },
+        "performedBy": { "type": "string", "maxLength": 160 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["action", "resourceType", "performedBy", "createdAt"]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized administrator record",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "maxLength": 160 },
+        "role": { "type": "string", "maxLength": 40 },
+        "addedAt": { "type": "string" }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/siteSettings/{settingId}": {
+      "schema": { "$ref": "SiteSettings" },
+      "description": "Stores site-wide content and configuration"
+    },
+    "/profile/{profileId}": {
+      "schema": { "$ref": "Profile" },
+      "description": "Stores personal bio, skills, and approach"
+    },
+    "/projects/{projectId}": {
+      "schema": { "$ref": "Project" },
+      "description": "Stores projects, drafts, and case studies"
+    },
+    "/services/{serviceId}": {
+      "schema": { "$ref": "Service" },
+      "description": "Stores service offerings and details"
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": { "$ref": "Inquiry" },
+      "description": "Stores client contact form submissions securely"
+    },
+    "/activityLogs/{logId}": {
+      "schema": { "$ref": "ActivityLog" },
+      "description": "Stores administrative activity history"
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "AdminUser" },
+      "description": "Stores allowed admin users"
+    }
+  }
+}

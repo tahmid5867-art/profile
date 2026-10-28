@@ -1,0 +1,89 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'tahmid5867@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Connection testing
+    match /test/{testId} {
+      allow read: if isValidId(testId);
+    }
+
+    // Site Settings: Public readable, Admin writable
+    match /siteSettings/{settingId} {
+      allow read: if isValidId(settingId);
+      allow write: if isValidId(settingId) && isAdmin();
+    }
+
+    // Profile: Public readable, Admin writable
+    match /profile/{profileId} {
+      allow read: if isValidId(profileId);
+      allow write: if isValidId(profileId) && isAdmin();
+    }
+
+    // Services: Public can read published services; Admin can read and write all
+    match /services/{serviceId} {
+      allow get: if isValidId(serviceId);
+      allow list: if true;
+      allow write: if isValidId(serviceId) && isAdmin();
+    }
+
+    // Projects: Public can read published projects; Admin can read and write all
+    match /projects/{projectId} {
+      allow get: if isValidId(projectId) && (resource.data.status == 'published' || isAdmin());
+      allow list: if resource.data.status == 'published' || isAdmin();
+      allow write: if isValidId(projectId) && isAdmin();
+    }
+
+    // Inquiries: Anyone can create a valid inquiry, but ONLY admin can read, update, or delete
+    match /inquiries/{inquiryId} {
+      allow create: if isValidId(inquiryId) &&
+        request.resource.data.name is string &&
+        request.resource.data.name.size() > 0 &&
+        request.resource.data.name.size() <= 120 &&
+        request.resource.data.email is string &&
+        request.resource.data.email.size() > 0 &&
+        request.resource.data.email.size() <= 160 &&
+        request.resource.data.projectDescription is string &&
+        request.resource.data.projectDescription.size() > 0 &&
+        request.resource.data.projectDescription.size() <= 3000 &&
+        request.resource.data.status == 'unread';
+
+      allow get: if isValidId(inquiryId) && isAdmin();
+      allow list: if isAdmin();
+      allow update, delete: if isValidId(inquiryId) && isAdmin();
+    }
+
+    // Activity Logs: Admin only
+    match /activityLogs/{logId} {
+      allow get: if isValidId(logId) && isAdmin();
+      allow list: if isAdmin();
+      allow write: if isValidId(logId) && isAdmin();
+    }
+
+    // Admins List: Admin only
+    match /admins/{adminId} {
+      allow get: if isValidId(adminId) && isAdmin();
+      allow list: if isAdmin();
+      allow write: if isValidId(adminId) && (isAdmin() || request.auth.token.email == 'tahmid5867@gmail.com');
+    }
+  }
+}
